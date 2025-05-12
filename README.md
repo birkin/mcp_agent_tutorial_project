@@ -30,6 +30,8 @@ Warning: client version is 0.6.5
 
 (I don't have the Ollama server running; not sure why the version also has a warning.)
 
+### upgrading Ollama
+
 I want to ensure I'm using a recent version of Ollama -- but how to upgrade depends on how I installed it (I don't remember).
 
 ```bash
@@ -58,3 +60,61 @@ NAME                                                    ID              SIZE    
 qwen2.5:7b                                              845dbda0ea48    4.7 GB    5 seconds ago    
 [snip] (other models listed)
 ```
+
+### running the Ollama server
+
+To see if it's running:
+
+```bash
+% curl 127.0.0.1:11434
+curl: (7) Failed to connect to 127.0.0.1 port 11434 after 0 ms: Couldn't connect to server
+```
+
+To start it:
+
+```bash
+% ollama serve
+```
+
+...then:
+
+```bash
+% curl 127.0.0.1:11434
+birkin@Brown-50021K9L ~ % curl 127.0.0.1:11434
+Ollama is running
+```
+
+This will keep the ollama server running as long as the terminal session is open. 
+
+To keep the server running in the background, use `ollama serve &` (lifetime of terminal session) or `nohup ollama serve &` (needs to be killed manually).
+
+Note: running the ollama server doesn't automatically load a model. You can load a model persistently for an interactive chat session via:
+
+```bash
+% ollama run qwen2.5:7b
+>>> Send a message (/? for help)
+```
+
+But that doesn't confirm that the model is running in the server. The only way to do that via the api is like:
+
+```bash
+% curl -X POST localhost:11434/api/generate -d '{"model":"qwen2.5:7b","prompt":"","stream":false}' | jq
+{
+  "model": "qwen2.5:7b",
+  "created_at": "2025-05-12T16:15:37.730822Z",
+  "response": "",
+  "done": true,
+  "done_reason": "load"
+}
+```
+
+## Preparing the json-config file
+
+The json-config file is a configuration file for the MCP server. It contains the following information:
+
+- `globalShortcut`: the global shortcut to use to access the MCP server
+- `mcpServers`: a list of MCP servers to use
+
+
+---
+
