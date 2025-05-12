@@ -2,6 +2,8 @@
 
 A professional-development-day investigation.
 
+Goal: to explore a protocol for how large language models can use not just use tools to perform tasks, but can decide which tools to use.
+
 _(2025-May-12-Monday)_
 
 
@@ -139,7 +141,9 @@ It, too uses `uvx` for installation, so I'm set.
 
 ### filesystem
 
-The filesystem mcp-server is installed by `npx`. My version might be very old, so I'll upgrade it.
+The filesystem mcp-server is auto-installed by `npx`, like `uvx`, on-the-fly. 
+
+My version might be very old, so I'll upgrade it.
 
 ```bash
 % npx -v
@@ -148,6 +152,7 @@ The filesystem mcp-server is installed by `npx`. My version might be very old, s
 
 IIRC, `np` and `npx` are installed when installing `node`. I don't remember how I installed that.
 
+```bash
 % which npx
 /Users/me/.nvm/versions/node/v18.20.7/bin/npx
 ```
@@ -198,7 +203,7 @@ The tutorial says to run `mcphost...`, but that doesn't work for me.
 mcphost not found
 ```
 
-Good that I tracked down the install location.
+Good that I tracked down the install location. Ok, to run it...
 
 ```bash
 % /Users/me/go/bin/mcphost -m ollama:qwen2.5 --config "/path/to/mcp_agent_tutorial_stuff/mcp_servers.json"
@@ -220,6 +225,8 @@ Good that I tracked down the install location.
 
   Hello! How can I assist you today?                                                                                                         
 ```
+
+Whoa; cool.
 
 ## evaluation
 
