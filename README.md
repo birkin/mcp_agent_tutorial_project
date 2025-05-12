@@ -6,6 +6,17 @@ Goal: to explore a protocol for how large language models can use not just use t
 
 _(2025-May-12-Monday)_
 
+on this page...
+
+- [Preparatory Research](#preparatory-research)
+- [Chosen Tutorial](#chosen-tutorial)
+- [Setting Up Ollama](#setting-up-ollama)
+- [Preparing the json-config file](#preparing-the-json-config-file)
+- [Setting up MCPHost](#setting-up-mcphost)
+- [Evaluation](#evaluation)
+
+---
+
 
 ## preparatory research
 
