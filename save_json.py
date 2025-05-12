@@ -1,7 +1,7 @@
 """
 Loads the json template, and saves it to the outer 'stuff' directory, replacing paths with envars.
 
-Usage: uv run ./save_json.py --env ../.env
+Usage: uv run --env-file "../.env" "./save_json.py"
 """
 
 import json
