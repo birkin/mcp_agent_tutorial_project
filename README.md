@@ -1122,26 +1122,31 @@ tl;dr -- success (before, was fail initially, then success)
 
 ## Summary of experience
 
-This was great. I didn't actually even test out the web-search tool, because I got so busy with the db-tool. But I have a sense of how asking an english-language question can prompt (no pun intended!) lots of behind-the-scenes tool activity. And it gives me more insight into windsurf, and an appreciation for the smoothness of the windsurf experience compared to the clunky slowness and poor results of some of the db tools (operating, I must say, on a _very_ complicated db).
+This was great. I didn't actually even test out the web-search tool, because I got so busy with the db-tool. But I have a sense of how asking an english-language question can prompt (no pun intended!) lots of behind-the-scenes tool activity. And it gives me more insight into [windsurf][ws], and an appreciation for the smoothness of the windsurf experience compared to the clunky slowness and poor results of some of the db tools (operating, I must say, on a _very_ complicated db).
+
+[ws]: <https://windsurf.com/editor>
 
 ### architecture insight
 
-One insight... the relationship between the MCP-server and the tools...
+Going through this tutorial gave me a better sense of the relationship between the MCPHost, the LLM, and the tools.
 
-I'm going to experiment with qwen3:8b. Let's assume that it's a better model. What can I expecte to see improved?
+For example, I'm going to experiment with qwen3:8b. Let's assume that it's a better model. What might I expect to see improved? I now have a sense of expectations, stemming from a sense of the architecture:
 
-- it might allow the MCP-server to make better decisions about what tools to use. 
-- it might result in better _perceived tool performance -- because the instructions given to the tools might be better.
+- it might allow the MCPHost to make better decisions about what tools to use. 
+- it might result in better _perceived_ tool performance -- because the instructions given to the tools might be better.
 - it would _not_ improve the actual performance of the tools -- in that internally, the tools just "act". And if a tool uses an LLM internally, my upgrading the MCPHost LLM wouldn't upgrade the LLM used by the tool.
 
 ### need for tool-evals
 
-I can see why Alex, on the ThursdAI podcast, is pushing his company to develope eval-tools to better understand what the tools are doing. That would have been invaluable in my testing.
+I can see why Alex, on the [ThursdAI podcast][TAI], is pushing his company to develope eval-tools to better understand what the tools are doing. That would have been invaluable in my testing.
+
+[TAI]: <https://thursdai.news/>
 
 ### future TODOs
 
 - ~~see how qwen3:8b performs in comparison.~~ Update: it's _astoundingly_ better.
 - try a python filesysem tool to get a feel for how interchangeable tools can be.
 - think about how to automate some sort of performance evaluation (I'm thinking accuracy over speed). Because the prompt seems so important, and LLMs are good at language-creation -- it seems there should be a way to have an LLM be in charge of creating a prompt, evaluating its result, and creating a better prompt. Update -- perhaps less important now that I'm using qwen3:8b.
+- think about and research what it would take to have a script, or a microservice -- be able to be used as an MCP tool. 
 
 ---
