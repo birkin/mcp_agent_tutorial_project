@@ -14,6 +14,8 @@ on this page...
 - [Preparing the json-config file](#preparing-the-json-config-file)
 - [Setting up MCPHost](#setting-up-mcphost)
 - [Evaluation](#evaluation)
+- [Evaluation -- via qwen3:8b](#eval----via-qwen38b)
+- [Summary of experience](#summary-of-experience)
 
 ---
 
@@ -865,7 +867,254 @@ This time I exited the session, then re-started it, and then ran the query again
 
 ---
 
-## Summary of experience...
+## eval -- via qwen3:8b
+
+IT'S SO MUCH BETTER!
+
+Qwen3:8b is, by default, a "reasoning" model (the reasoning can be toggled off), which is very useful for this kind of task. I haven't been tracking time -- but it does feel a bit slower.
+
+### counting, take-2
+
+tl;dr -- success! (was a fail)
+
+```bash
+  You: How many records does the table 5_referents contain?
+2025/05/12 21:48:07 INFO 🔧 Using tool name=sqlite__read_query
+
+  Assistant:                                                                                                                                                                                                                                               
+  First, I remember that earlier, when they asked about the table structure, I used the sqlite__describe_table function. Now, they want the   
+  record count.                                                                                                                                                                                                                                                      
+  I should use the sqlite__read_query function to execute a SELECT COUNT(*) query. The table name is 5_referents, and since it's a numeric    
+  table name, I need to enclose it in quotes to avoid syntax errors.                                                                          
+                                                                                                                            
+  Wait, in the previous interaction, when I tried to describe 5_referents without quotes, there was an error. The user then reminded me to use
+  quotes for table names. So, I should make sure to include the quotes in the query.                                                          
+                                                                                                                            
+  The query would be SELECT COUNT(*) FROM "5_referents";. Using the quotes ensures that SQLite treats 5_referents as a table name, even though
+  it starts with a number.                                                                                                                    
+                                                                                                                            
+  After executing the query, the response came back with COUNT(*): 6947. That means there are 6,947 records in the table.                     
+                                                                                                                            
+  Now, I need to present this information clearly. I'll state the number and maybe offer further assistance, like checking other tables or    
+  relationships, to keep the conversation going. The user might be analyzing data or setting up reports, so providing the count and asking if 
+  they need more details would be helpful.                                                                                                    
+                                                                                                                            
+  The table 5_referents contains 6,947 records.                                                                                               
+                                                                                                                            
+  Would you like me to check other tables for their record counts or explore specific relationships further?                                  
+```
+
+### detailed record info
+
+tl;dr -- success (was a fail)
+
+```bash
+  You: Show the contents of the first three records from the table 5_referents.
+2025/05/12 21:53:03 INFO 🔧 Using tool name=sqlite__read_query
+
+  Assistant:                                                                                                                                  
+  First, I need to execute a SQL query to get the first three records. The correct syntax would be SELECT * FROM "5_referents" LIMIT 3. Since 
+  the table name has numbers and might be a reserved keyword, using double quotes is important to avoid syntax errors.                        
+
+  Looking at the tool response, the first three records are returned. Now, I should present this data in a clear way. The user might be       
+  looking for patterns or specific fields. Let me check the data:                                                                             
+
+  • The first record has id 2, uuid, sex as Female, race_text as Indian, and reference_id 2.                                                  
+  • The second record has id 3, sex as NULL, and race_text as NULL.                                                                           
+  • The third record has id 4, age 19, age_number 19.0, and a specific age_category UUID.                                                     
+
+  I notice some fields are NULL, which might indicate missing data. The user might be interested in why some fields are missing or how the    
+  data is structured. Also, the age_category in the third record has a UUID, which could link to another table, maybe 1_age_categories. The   
+  reference_id and person_id suggest foreign key relationships to other tables like 4_references and 1_people.                                
+
+  I should mention these observations. The user might need to know about the relationships or data integrity. Since they've been exploring the
+  table structure and relationships, pointing out the foreign keys and possible linked tables would be helpful. Also, noting the presence of  
+  NULL values could be important for data analysis.                                                                                           
+
+  I should structure the response to first show the data, then highlight key points like foreign keys, NULL values, and possible              
+  relationships. This way, the user gets both the data and insights into how it connects to other parts of the database.                      
+
+  Here are the first three records from the 5_referents table:                                                                               
+  --------                                                                                                                                    
+  ### Record 1                                                                                                                                
+  Field                                                        │Value                                                                         
+  ─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────
+  id                                                           │2                                                                             
+  uuid                                                         │d340317ed09f418998c37423f9559e2d                                              
+  age                                                          │(empty string)                                                                
+  age_number                                                   │NULL                                                                          
+  age_category                                                 │NULL                                                                          
+  sex                                                          │Female                                                                        
+  occupation_text                                              │NULL                                                                          
+  race_text                                                    │Indian                                                                        
+  primary_name_id                                              │3                                                                             
+  reference_id                                                 │2                                                                             
+  person_id                                                    │2                                                                             
+
+  --------                                                                                                                                    
+  ### Record 2                                                                                                                                
+  Field                                                        │Value                                                                         
+  ─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────
+  id                                                           │3                                                                             
+  uuid                                                         │26081d668eb14f84aa6b3621c9f6f012                                              
+  age                                                          │(empty string)                                                                
+  age_number                                                   │NULL                                                                          
+  age_category                                                 │NULL                                                                          
+  sex                                                          │NULL                                                                          
+  occupation_text                                              │NULL                                                                          
+  race_text                                                    │NULL                                                                          
+  primary_name_id                                              │4                                                                             
+  reference_id                                                 │2                                                                             
+  person_id                                                    │3                                                                             
+                                                                                                                               
+  --------                                                                                                                                    
+  ### Record 3                                                                                                                                
+  Field                                                      │Value                                                                           
+  ───────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────
+  id                                                         │4                                                                               
+  uuid                                                       │2a18eb5442964353b170a114b74d0f3c                                                
+  age                                                        │19                                                                              
+  age_number                                                 │19.0                                                                            
+  age_category                                               │3a592293-9d21-4cef-968a-fcebfd1c0835                                            
+  sex                                                        │Male                                                                            
+  occupation_text                                            │NULL                                                                            
+  race_text                                                  │Indian                                                                          
+  primary_name_id                                            │5                                                                               
+  reference_id                                               │3                                                                               
+  person_id                                                  │4                                                                               
+                                                                                                                                
+  --------                                                                                                                                        
+  ### Key Observations:                                                                                                                       
+  1. NULL Values: Some fields like age, age_category, or sex are NULL or empty strings, indicating missing data.                              
+  2. Foreign Keys:                                                                                                                            
+    • reference_id likely links to the 4_references table.                                                                                    
+    • person_id likely links to the 1_people table.                                                                                           
+    • age_category (UUID) likely links to the 1_age_categories table.                                                                         
+  3. Consistency: Record 3 has consistent data (age and age_number), while others have missing fields.                                        
+       
+  Would you like to explore specific fields (e.g., age_category UUIDs) or check related tables for context?                                   
+```
+
+### adding names to 5-referents -- try #2
+
+tl;dr -- success (was fail)
+
+```bash
+  You: For each of first three records in the table "5_referents", find the matching name record in the table "6_referent_names" by matching 5_referents.primary_name_id with 6_referent_names.id -- and show 6_referent_names.first and 6_referent_names.last in the output.
+2025/05/12 22:22:15 INFO 🔧 Using tool name=sqlite__read_query
+2025/05/12 22:22:45 INFO 🔧 Using tool name=sqlite__read_query
+2025/05/12 22:23:40 INFO 🔧 Using tool name=sqlite__read_query
+2025/05/12 22:24:02 INFO 🔧 Using tool name=sqlite__read_query
+
+  Assistant:                                                                                                                                  
+  Earlier, there was an error with the query using "5_referents" as a token, which might be due to the table name having a prefix or being    
+  case-sensitive. The user then tried using backticks around the table names, which worked. The result showed entries like Elizabeth, Duglas, 
+  and Harry, but some names are empty.                                                                                                        
+
+  I need to present this data clearly. The user might be looking for information on historical figures, possibly in a database for research.  
+  The empty fields could mean missing data. I should mention that and maybe suggest checking for more details or handling missing data. Also, 
+  note the structure of the tables and the relationships between them. Make sure to highlight the key fields and any constraints, like the    
+  foreign key relationships. The user might need this for data analysis or reporting, so clarity is important.                                
+
+  Here are the first three matching records from the 5_referents table joined with the 6_referent_names table:                                
+
+  Referent ID                                    │First Name                                    │Last Name                                    
+  ───────────────────────────────────────────────┼──────────────────────────────────────────────┼─────────────────────────────────────────────
+  2                                              │Elizabeth                                     │(empty)                                      
+  3                                              │(empty)                                       │Duglas                                       
+  4                                              │Harry                                         │(empty)                                      
+
+  ### Key Observations:                                                                                                                       
+  1. Data Inconsistency: Some entries have empty fields (e.g., first or last), which might indicate missing data or incomplete records.       
+  2. Relationship: The primary_name_id in 5_referents links to the id in 6_referent_names, establishing a one-to-one relationship between     
+  referents and their primary names.                                                                                                          
+  3. Potential Use Case: This could represent historical figures (e.g., "Elizabeth Duglas" or "Harry") with partial name records, possibly    
+  from a database of historical references.                                                                                                   
+                                                                                                                                
+  Would you like to investigate the empty fields or explore additional relationships?                                                         
+```
+
+### writing to a file
+
+tl;dr -- success (was fail initially, then success)
+
+```bash
+  You: Find all the records in the table "6_referent_names" where the field "first" contains any spelling of "Harriet", and save that to a report titled "harriet_research_via_qwen3-8b.txt".
+2025/05/12 22:29:36 INFO 🔧 Using tool name=sqlite__read_query
+2025/05/12 22:30:09 INFO 🔧 Using tool name=filesystem__write_file
+2025/05/12 22:30:35 INFO 🔧 Using tool name=filesystem__write_file
+
+  Assistant:                                                                                                                                  
+  First, I called the SQLite query function to select the first and last names from the table where the first name like '%Harriet%'. The      
+  result was one record: Harriet Wilson.                                                                                                      
+
+  Next, I tried to write this data to a file. The initial attempt failed because the path was outside the allowed directories. The user's     
+  allowed directory is /Users/birkin/Desktop/mcp_agent_tutorial_stuff/ollama_mcp_filesystem, so I adjusted the path accordingly.              
+
+  After correcting the path, the file was successfully written. Now, I need to confirm the action and let the user know it's done. I should   
+  mention the file path and offer further assistance if needed.                                                                               
+
+  The report titled "harriet_research_via_qwen3-8b.txt" has been successfully saved to the allowed directory:                                 
+
+  File path: /Users/birkin/Desktop/mcp_agent_tutorial_stuff/ollama_mcp_filesystem/harriet_research_via_qwen3-8b.txt                           
+
+  The file contains:                                                                                                                          
+    # Harriet Research Findings                                                                                                               
+
+    ## Matching Records from 6_referent_names:                                                                                                
+
+    | First Name  | Last Name |                                                                                                               
+    |-------------|-----------|                                                                                                               
+    | Harriet     | Wilson    |                                                                                                               
+
+  Would you like to perform any additional searches or analyze other records?                                                                 
+
+  You: Can you redo that and output all the fields in the record, and save those to the file "harriet_research_via_qwen3-8b_02.txt"? Thanks!
+2025/05/12 22:34:46 INFO 🔧 Using tool name=sqlite__read_query
+2025/05/12 22:35:27 INFO 🔧 Using tool name=filesystem__write_file
+
+  Assistant:                                                                                                                                  
+  First, I need to adjust the SQL query to select all fields instead of just first and last. The previous query was SELECT first, last, so    
+  changing that to SELECT * makes sense. I'll execute that query to get the full record.                                                      
+
+  Next, the user wants the output in a formatted table with all fields. The response from the database includes id, referent_id, name_type_id,
+  first, and last. I'll structure the content with these fields, making sure to include all of them in the table.                             
+
+  Then, I need to write this information to the specified file path. The user mentioned saving it to "harriet_research_via_qwen3-8b_02.txt".  
+  I'll use the filesystem__write_file function, ensuring the path is within the allowed directories. The previous attempt had an access denied
+  error because the path was outside the allowed directories, so I corrected it by using the allowed directory path.                          
+
+  I'll format the content with headers for each field and the corresponding values. The user might be compiling research, so including all    
+  fields provides a comprehensive view. After writing the file, I'll confirm the success and offer further assistance in case they need more  
+  details or another search.                                                                                                                  
+
+  The updated report with all fields from the matching record has been saved to:                                                              
+
+  File path: /Users/birkin/Desktop/mcp_agent_tutorial_stuff/ollama_mcp_filesystem/harriet_research_via_qwen3-8b_02.txt                        
+
+  File content:                                                                                                                               
+    # Harriet Research Findings (Full Record)                                                                                                 
+
+    ## Matching Records from 6_referent_names:                                                                                                
+
+    | Field       | Value                     |                                                                                               
+    |-------------|---------------------------|                                                                                               
+    | id          | 5398                      |                                                                                               
+    | referent_id | 5386                      |                                                                                               
+    | name_type_id| 8                         |                                                                                               
+    | first       | Harriet                   |                                                                                               
+    | last        | Wilson                    |                                                                                               
+
+  This version includes all fields from the table. Let me know if you'd like to explore related data or refine the search further! 
+```
+
+
+
+
+
+
+
+## Summary of experience
 
 This was great. I didn't actually even test out the web-search tool, because I got so busy with the db-tool. But I have a sense of how asking an english-language question can prompt (no pun intended!) lots of behind-the-scenes tool activity. And it gives me more insight into windsurf, and an appreciation for the smoothness of the windsurf experience compared to the clunky slowness and poor results of some of the db tools (operating, I must say, on a _very_ complicated db).
 
@@ -885,8 +1134,8 @@ I can see why Alex, on the ThursdAI podcast, is pushing his company to develope 
 
 ### future TODOs
 
-- see how qwen3:8b performs in comparison.
+- ~~see how qwen3:8b performs in comparison.~~ Update: it's _astoundingly_ better.
 - try a python filesysem tool to get a feel for how interchangeable tools can be.
-- think about how to automate some sort of performance evaluation (I'm thinking accuracy over speed). Because the prompt seems so important, and LLMs are good at language-creation -- it seems there should be a way to have an LLM be in charge of creating a prompt, evaluating its result, and creating a better prompt.
+- think about how to automate some sort of performance evaluation (I'm thinking accuracy over speed). Because the prompt seems so important, and LLMs are good at language-creation -- it seems there should be a way to have an LLM be in charge of creating a prompt, evaluating its result, and creating a better prompt. Update -- perhaps less important now that I'm using qwen3:8b.
 
 ---
