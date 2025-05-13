@@ -6,7 +6,7 @@ Goal: to explore the Model Context Protocol (MCP) and associated server-architec
 
 The protocol defines a way for large language models to use tools to perform tasks. 
 
-Note: As I understand it, the ability of LLMs to decide _which_ tools to use is not part of the protocol -- rather that is a function of their ability to reason about the task at hand. MCP defines the interface and infrastructure that enables an LLM to discover, understand, and invoke tools
+Note: As I understand it, the ability of LLMs to decide _which_ tools to use is not part of the protocol -- rather that is a function of LLMs' ability to reason about the task at hand. MCP defines the interface and infrastructure that enables an LLM to discover, understand, and invoke tools
 
 on this page...
 - [Preparatory Research](#preparatory-research)
