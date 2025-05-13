@@ -240,14 +240,14 @@ Good that I tracked down the install location. Ok, to run it...
   You: hello
 
   Assistant:                                                                                                                                 
-
-
   Hello! How can I assist you today?                                                                                                         
 ```
 
 Whoa; cool.
 
 ## evaluation
+
+Note: I was using qwen2.5:7b for this evaluation section. See the qwen3:8b section below; the results are _much_ better.
 
 ### showing tables
 
