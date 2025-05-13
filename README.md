@@ -93,7 +93,6 @@ To start it:
 
 ```bash
 % curl 127.0.0.1:11434
-birkin@Brown-50021K9L ~ % curl 127.0.0.1:11434
 Ollama is running
 ```
 
