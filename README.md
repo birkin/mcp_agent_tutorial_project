@@ -1002,11 +1002,11 @@ tl;dr -- success (was a fail before, on the first try)
   Would you like to explore specific fields (e.g., age_category UUIDs) or check related tables for context?                                   
 ```
 
-### adding names to 5-referents (qwen3:8b)
+### adding names to 5_referents (qwen3:8b)
 
 tl;dr -- success (was fail before)
 
-(see [qwen2.5:7b adding names to 5-referents -- try #1](#adding-names-to-5-referents-qwen257b))
+(see [qwen2.5:7b adding names to 5_referents](#adding-names-to-5_referents))
 
 ```bash
   You: For each of first three records in the table "5_referents", find the matching name record in the table "6_referent_names" by matching 5_referents.primary_name_id with 6_referent_names.id -- and show 6_referent_names.first and 6_referent_names.last in the output.
