@@ -276,7 +276,7 @@ tl;dr -- success
   9. 1_races                                                                                                                                 
   10. 1_reference_types     
 
-  [snip] (lots of other tables)                                                                                                                 
+  [snip] (lots of other tables)                                                
 ```
 
 ### connected tables
@@ -804,7 +804,7 @@ id    referent_id  name_type_id  first    last
 5398  5386         8             Harriet  Wilson
 ```
 
-### writing to file
+### writing to a file
 
 tl;dr -- a fail, and then a success
 
@@ -876,9 +876,11 @@ IT'S SO MUCH BETTER!
 
 Qwen3:8b is, by default, a "reasoning" model (the reasoning can be toggled off), which is very useful for this kind of task. I haven't been tracking time -- but it does feel a bit slower.
 
-### counting, take-2
+### counting, take-2 (qwen3:8b)
 
 tl;dr -- success! (was a fail)
+
+(see [qwen2.5:7b counting try](#counting-problem))
 
 ```bash
   You: How many records does the table 5_referents contain?
@@ -907,9 +909,11 @@ tl;dr -- success! (was a fail)
   Would you like me to check other tables for their record counts or explore specific relationships further?                                  
 ```
 
-### detailed record info
+### detailed record info (qwen3:8b)
 
-tl;dr -- success (was a fail)
+tl;dr -- success (was a fail before, on the first try)
+
+(see [qwen2.5:7b detailed record info try](#detailed-record-info))
 
 ```bash
   You: Show the contents of the first three records from the table 5_referents.
@@ -998,9 +1002,11 @@ tl;dr -- success (was a fail)
   Would you like to explore specific fields (e.g., age_category UUIDs) or check related tables for context?                                   
 ```
 
-### adding names to 5-referents -- try #2
+### adding names to 5-referents (qwen3:8b)
 
-tl;dr -- success (was fail)
+tl;dr -- success (was fail before)
+
+(see [qwen2.5:7b adding names to 5-referents -- try #1](#adding-names-to-5-referents-qwen257b))
 
 ```bash
   You: For each of first three records in the table "5_referents", find the matching name record in the table "6_referent_names" by matching 5_referents.primary_name_id with 6_referent_names.id -- and show 6_referent_names.first and 6_referent_names.last in the output.
@@ -1037,9 +1043,11 @@ tl;dr -- success (was fail)
   Would you like to investigate the empty fields or explore additional relationships?                                                         
 ```
 
-### writing to a file
+### writing to a file (qwen3:8b)
 
-tl;dr -- success (was fail initially, then success)
+tl;dr -- success (before, was fail initially, then success)
+
+(see [qwen2.5:7b writing to a file](#writing-to-a-file))
 
 ```bash
   You: Find all the records in the table "6_referent_names" where the field "first" contains any spelling of "Harriet", and save that to a report titled "harriet_research_via_qwen3-8b.txt".
@@ -1110,11 +1118,6 @@ tl;dr -- success (was fail initially, then success)
 
   This version includes all fields from the table. Let me know if you'd like to explore related data or refine the search further! 
 ```
-
-
-
-
-
 
 
 ## Summary of experience
