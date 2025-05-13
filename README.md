@@ -1,13 +1,14 @@
 # mcp_agent_tutorial_project
 
-A professional-development-day investigation.
+A professional-development-day investigation. _(2025-May-12-Monday)_
 
-Goal: to explore a protocol for how large language models can use not just use tools to perform tasks, but can decide which tools to use.
+Goal: to explore the Model Context Protocol (MCP) and associated server-architecture. 
 
-_(2025-May-12-Monday)_
+The protocol defines a way for large language models to use tools to perform tasks. 
+
+Note: As I understand it, the ability of LLMs to decide _which_ tools to use is not part of the protocol -- rather that is a function of their ability to reason about the task at hand. MCP defines the interface and infrastructure that enables an LLM to discover, understand, and invoke tools
 
 on this page...
-
 - [Preparatory Research](#preparatory-research)
 - [Chosen Tutorial](#chosen-tutorial)
 - [Setting Up Ollama](#setting-up-ollama)
@@ -189,6 +190,8 @@ Ok. I ran the save_json.py script, and it created the mcp_servers.json file in t
 
 
 ## Setting up MCPHost
+
+This is, effectively, the "hub" of the MCP system. It's the central-coordinator that interfaces between us, the LLM, and the available server-tools (defined in the json-config file).
 
 ### install go
 
