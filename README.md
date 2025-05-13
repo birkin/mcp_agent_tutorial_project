@@ -29,6 +29,7 @@ Used chatgpt's deep-research for an overview of mcp/agent tutorials.
 
 - "Model Context Protocol (MCP) using Ollama" (MCP Servers using Local LLMs tutorial) -- by Mehul Gupta _(Mar 29, 2025)_
 - [link](https://medium.com/data-science-in-your-pocket/model-context-protocol-mcp-using-ollama-e719b2d9fd7a)
+- it's a pretty short tutorial, but there's a lot I didn't understand fully and so researched a lot along the way.
 
 
 ## setting up Ollama
@@ -61,7 +62,9 @@ Download link: <https://ollama.com/download>
 ollama version is 0.6.8
 ```
 
-The deep-research document notes "...A 32 GB M1 can comfortably run 7B to 13B parameter models...", so I'll figure out how to specify the `7b` version of the `qwen2.5` model the tutorial recommends ([link](https://ollama.com/library/qwen2.5)). But I'll note that as of about a week ago, qwen3 came out, so I'll try that, eventually, too (note to self: the version I should be able to run is the `8b` version).
+The deep-research document notes "...A 32 GB M1 can comfortably run 7B to 13B parameter models...", so I'll figure out how to specify the `7b` version of the `qwen2.5` model the tutorial [recommends][qwen-recommendation]. But I'll note that as of about a week ago, qwen3 came out, so I'll try that, eventually, too (note to self: the version of qwen3 I should be able to run is the `8b` version).
+
+[qwen-recommendation]: <https://ollama.com/library/qwen2.5>
 
 Ok, the command-pattern to load a model, specifying the size: `ollama pull qwen2.5:7b`.
 
@@ -199,6 +202,10 @@ go version go1.24.3 darwin/arm64
 ```
 
 ### install mcphost
+
+From the [readme][mcphost-readme] ... _MCPHost is a CLI host application that enables Large Language Models (LLMs) to interact with external tools through the Model Context Protocol (MCP). Currently supports both Claude 3.5 Sonnet and Ollama models._
+
+[mcphost-readme]: <https://github.com/mark3labs/mcphost>
 
 Ran `go install github.com/mark3labs/mcphost@latest`. Downloaded lots of stuff to mysterious unknown destinations.
 
