@@ -14,7 +14,7 @@ on this page...
 - [Setting Up Ollama](#setting-up-ollama)
 - [Preparing the json-config file](#preparing-the-json-config-file)
 - [Setting up MCPHost](#setting-up-mcphost)
-- [Evaluation](#evaluation)
+- [Evaluation -- via qwen2.5:7b](#evaluation)
 - [Evaluation -- via qwen3:8b](#eval----via-qwen38b)
 - [Summary of experience](#summary-of-experience)
 
